@@ -10,8 +10,13 @@
             var element = document.getElementById('itemList');
             var newParagraph = document.createElement('p');
             var newTextNode = document.createTextNode(item);
+            var paragraph = document.createTextNode('    ')
             var editButton = document.createElement('button');
             var editText = document.createTextNode('Edit');
+
+           
+            var deleteButton = document.createElement('button');
+            var deleteText = document.createTextNode('Delete');
 
 
             newParagraph.appendChild(newTextNode);
@@ -19,13 +24,16 @@
             element.appendChild(editButton);
             editButton.appendChild(editText);
 
-            itemList.forEach(function(){
-
-            
-                editButton.addEventListener("click", function (index) {
-                    edit(index);
-                })
+            editButton.addEventListener("click", function () {
+                editItem(index);
             });
+            
+            element.appendChild(deleteButton);
+            element.appendChild(deleteText);
+            deleteButton.addEventListener("click", function () {
+                deleteItem(index);
+            });
+
         })
     }
 
@@ -49,17 +57,38 @@
         }
     }
 
-    function edit(index) {
-        
+    function editItem(index) {
+
         var editElement = document.getElementById('editIndex');
+        editElement.innerHTML = '';
+
         var editBox = document.createElement('input');
+
         
-        editBox.innerHTML = '';
         editBox.setAttribute('type', 'text');
-        editBox.setAttribute('value', 'edit');
+        editBox.setAttribute('value', itemList[index]);
+        editBox.addEventListener("keypress", function () {
+            if (event.key === "Enter") {
+                itemList[index] = editBox.value;
+                var containerElement = document.getElementById('itemList');
+                containerElement.innerHTML = '';
+                displayListItems();
+                editElement.innerHTML = '';
+            }
+        })
         editElement.appendChild(editBox);
-        editBox.innerHTML = '?';
-    }   
+       
+    }
+
+
+    function deleteItem(index) {
+
+        var containerElement = document.getElementById('itemList');
+        containerElement.innerHTML = '';
+        itemList.splice(index, 1);  
+        displayListItems();
+
+    }
 
     function initEventListners() {
         var element = document.getElementById('addItems');
@@ -85,7 +114,6 @@
         setTimeout(() => {
             displayListItems();
             initEventListners();
-            edit();
         }, 300);
     }
 
