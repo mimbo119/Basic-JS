@@ -5,6 +5,18 @@
     var itemList = ["Hello World", "fsdfsd", "dsfsd"];
 
     //Methods
+
+    function titleShow(){
+
+        var title = document.getElementsByClassName('title');
+        var newTitle = document.createElement('h2');
+        var titleName = document.createTextNode('To-Do List');
+
+        newTitle.appendChild(titleName);
+        title[0].appendChild(newTitle);
+    }
+
+
     function displayListItems() {
         itemList.forEach(function (item, index) {
             var element = document.getElementById('itemList');
@@ -13,23 +25,26 @@
             var paragraph = document.createTextNode('    ')
             var editButton = document.createElement('button');
             var editText = document.createTextNode('Edit');
-
-           
+            editButton.setAttribute('id', 'button');
             var deleteButton = document.createElement('button');
             var deleteText = document.createTextNode('Delete');
+            deleteButton.setAttribute('id', 'button2');
+
 
 
             newParagraph.appendChild(newTextNode);
             element.appendChild(newParagraph);
             element.appendChild(editButton);
             editButton.appendChild(editText);
+            element.appendChild(deleteButton);
+            deleteButton.appendChild(deleteText);
+
 
             editButton.addEventListener("click", function () {
                 editItem(index);
             });
+
             
-            element.appendChild(deleteButton);
-            element.appendChild(deleteText);
             deleteButton.addEventListener("click", function () {
                 deleteItem(index);
             });
@@ -47,13 +62,13 @@
     }
 
     function search() {
-        var searchContainer = document.getElementById('searchContainer');
-        var showDoc = document.getElementById('showIndex');
+        var searchContainer = document.getElementById('showItem');
+        //var showDoc = document.getElementById('showIndex');
         var x = document.getElementById('txt').value;
         var index = itemList.indexOf(x);
 
         if (index != -1) {
-            showDoc.innerHTML = x + ' is here = ' + index;
+            searchContainer.innerHTML = x + ' is here = ' + index;
         }
     }
 
@@ -114,6 +129,7 @@
         setTimeout(() => {
             displayListItems();
             initEventListners();
+            titleShow();
         }, 300);
     }
 
